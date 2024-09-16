@@ -28,7 +28,7 @@ public class Status {
     @OneToMany(mappedBy = "status")
     private List<Users> users;
 
-    public Status from(StatusDto dto){
+    public static Status from(StatusDto dto){
             StatusBuilder builder = Status.builder().
                     statusId(dto.getStatusIdDto()).
                     statusName(dto.getStatusNameDto());

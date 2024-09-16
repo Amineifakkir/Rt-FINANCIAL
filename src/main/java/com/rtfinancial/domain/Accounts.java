@@ -2,10 +2,7 @@ package com.rtfinancial.domain;
 
 import com.rtfinancial.dto.AccountsDto;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -19,6 +16,7 @@ import java.util.Set;
 @Table(name = "ACCOUNTS")
 @Entity
 @Builder
+@AllArgsConstructor
 public class Accounts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

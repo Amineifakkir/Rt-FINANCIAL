@@ -1,12 +1,12 @@
 package com.rtfinancial.domain;
 
+import com.rtfinancial.dto.UsersDto;
+import com.rtfinancial.enums.AccountStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,6 +19,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Table(name = "USERS")
 @Entity
+@Builder
+@AllArgsConstructor
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +54,7 @@ public class Users {
     )
     private Set<Roles> roles;
 
+    @Getter
     @Enumerated(EnumType.STRING)
     @Column(name = "ACCOUNT_STATUS", nullable = false)
     private AccountStatus Accountstatus;
@@ -72,21 +75,21 @@ public class Users {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
 
-    public AccountStatus getAccountStatus() {
-        return Accountstatus;
+
+    public Users from(UsersDto dto) {
+        UsersBuilder builder = Users.builder().
+                userId(dto.getUserIdDto()).
+                username(dto.getUsernameDto()).
+                password(dto.getPasswordDto()).
+                email(dto.getEmailDto()).
+                createAt(dto.getCreateAtDto()).
+                updateAt(dto.getUpdateAtDto()).
+                status(Status.from(dto.getStatusDto())).
+                Accountstatus(dto.getAccountstatusDto());
+        return builder.build();
+
     }
 
-    /**
-     * The enum Account status.
-     */
-     public enum AccountStatus {
-        /**
-         * Active account status.
-         */
-        ACTIVE,
-        /**
-         * Inactive account status.
-         */
-        INACTIVE
-    }
+
+
 }

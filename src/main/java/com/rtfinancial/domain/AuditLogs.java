@@ -1,9 +1,8 @@
 package com.rtfinancial.domain;
 
+import com.rtfinancial.dto.AuditLogsDto;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * The type Audit logs.
@@ -13,6 +12,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Table(name = "AUDIT_LOGS")
 @Entity
+@Builder
+@AllArgsConstructor
 public class AuditLogs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +30,24 @@ public class AuditLogs {
     private String entityId;
 
     @Column(name = "ENTITY_TYPE", nullable = false)
-    private String enityType;
+    private String entityType;
 
     @Column(name = "TIMESTAMP", nullable = false)
     private String timestamp;
     @Column(name = "DETAILS", nullable = false)
     private String details;
+
+    public AuditLogs from(AuditLogsDto dto) {
+        return AuditLogs.builder()
+                .auditId(dto.getAuditId())
+                .user(dto.getUserDto())
+                .action(dto.getActionDto())
+                .entityId(dto.getEntityIdDto())
+                .entityType(dto.getEnityTypeDto())
+                .timestamp(dto.getTimestampDto())
+                .details(dto.getDetailsDto())
+                .build();
+    }
+
+
 }
